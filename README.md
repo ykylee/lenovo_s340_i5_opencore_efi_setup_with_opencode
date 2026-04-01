@@ -1,0 +1,1 @@
+# lenovo_s340_i5_opencore_efi_setup_with_opencode
