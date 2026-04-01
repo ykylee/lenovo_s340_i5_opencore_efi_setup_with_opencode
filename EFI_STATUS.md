@@ -10,157 +10,121 @@
 
 ```
 EFI/
-├── BOOT/                    # (미생성 - OpenCore 빌드 시 생성)
-│   └── BOOTX64.EFI
+├── BOOT/
+│   └── BOOTx64.efi          ✅ 복사됨 (샘플 기반)
 └── OC/
-    ├── ACPI/
-    │   ├── Add/             # SSDT 테이블 (비어있음)
-    │   ├── Patch/           # ACPI 패치 (비어있음)
-    │   └── Delete/          # ACPI 삭제 (비어있음)
-    ├── Drivers/             # UEFI 드라이버 (비어있음)
-    ├── Kexts/               # 커널 확장 (비어있음)
-    ├── Tools/               # UEFI 도구 (비어있음)
-    ├── Resources/            # 부트 피커 리소스 (미생성)
-    │   ├── Image/
-    │   ├── Label/
-    │   └── Audio/
-    ├── OpenCore.efi         # (미존재 - 다운로드 필요)
-    └── config.plist         # ✅ 존재
+    ├── ACPI/                 ✅ 13개 SSDT
+    ├── Bootstrap/            ✅ 복사됨
+    ├── Drivers/              ✅ 3개 드라이버
+    ├── Kexts/                ✅ 15개 kext
+    ├── Resources/            ✅ 부트 피커 리소스
+    ├── Tools/                ✅ UEFI 도구
+    ├── OpenCore.efi          ✅ 복사됨
+    └── config.plist          ✅ 샘플 기반 (수정 필요)
 ```
 
 ---
 
 ## 현재 파일 목록
 
-### OC/config.plist
-- **상태**: ✅ 존재
-- **크기**: 5,746 bytes
-- **마지막 수정**: 2024-04-01
+### 부트 파일
+- **BOOTx64.efi**: ✅ 존재 (샘플 복사)
+- **OpenCore.efi**: ✅ 존재 (샘플 복사)
 
-### ACPI/Add/
+### ACPI (13개 SSDT)
 ```
-(비어있음)
+SSDT-AWAC.aml      - AWAC 시간 유지
+SSDT-EC.aml        - 내장 컨트롤러
+SSDT-GPI0.aml      - GPIO 컨트롤러
+SSDT-GPRW.aml      - 런웨이크 방지
+SSDT-HPET.aml      - 타이머 수정
+SSDT-I2C0-SPED.aml - I2C 속도
+SSDT-PLUG.aml      - CPU 전원 관리
+SSDT-PMC.aml       - PMC 수정
+SSDT-PNLFCFL.aml   - 백라이트 제어 (CFL)
+SSDT-PSF13.aml     - PSF 수정
+SSDT-USBX.aml      - USB 전원 관리
+SSDT-XOSI.aml      - _OSI → XOSI
+ssdt-rmne.aml      - 장치 이름 변경
 ```
 
-### Drivers/
+### UEFI Drivers (3개)
 ```
-(비어있음)
-```
-
-### Kexts/
-```
-(비어있음)
+OpenCanopy.efi    - 그래픽 부트 피커
+OpenHfsPlus.efi   - HFS+ 파일시스템
+OpenRuntime.efi   - 런타임 드라이버 (필수)
 ```
 
-### Tools/
+### Kexts (15개)
 ```
-(비어있음)
+AirportBrcmFixup.kext  - Broadcom WiFi
+AppleALC.kext         - 오디오
+BrightnessKeys.kext   - 밝기 키
+Lilu.kext            - 패치 엔진 (필수)
+NVMeFix.kext         - NVMe 최적화
+NullEthernet.kext    - 더미 이더넷
+SMCBatteryManager.kext - 배터리 관리
+SMCProcessor.kext    - CPU 센서
+Sinetek-rtsx.kext    - 카드 리더기
+USBPorts.kext        - USB 포트 매핑
+VirtualSMC.kext       - SMC 에뮬레이션 (필수)
+VoodooI2C.kext       - I2C 터치패드
+VoodooI2CHID.kext    - I2C HID
+VoodooPS2Controller.kext - PS/2 키보드/마우스
+WhateverGreen.kext   - 그래픽 패치 (필수)
+```
+
+### Tools
+```
+BootKicker.efi, ChipTune.efi, CleanNvram.efi, ControlMsrE2.efi, CsrUtil.efi, 
+GopStop.efi, KeyTester.efi, MmapDump.efi, OpenControl.efi, OpenShell.efi, 
+ResetSystem.efi, RtcRw.efi
 ```
 
 ---
 
 ## config.plist 현재 설정 상태
 
-### ACPI 섹션
-| 항목 | 상태 | 비고 |
-|------|------|------|
-| SSDT-EC.aml | 추가됨 | Enable |
-| SSDT-HPET.aml | 추가됨 | Enable |
-| SSDT-PLUG.aml | 추가됨 | Enable |
-| SSDT-PNLF.aml | 추가됨 | Enable |
-| SSDT-USBX.aml | 추가됨 | Enable |
-| SSDT-XOSI.aml | 추가됨 | Enable |
-| _OSI to XOSI 패치 | 활성화됨 | |
+### ACPI 섹션 (샘플 기반 - 수정 필요)
+| 항목 | 상태 |
+|------|------|
+| SSDT-EC.aml | 추가됨 |
+| SSDT-HPET.aml | 추가됨 |
+| SSDT-PLUG.aml | 추가됨 |
+| SSDT-PNLFCFL.aml | 추가됨 |
+| SSDT-USBX.aml | 추가됨 |
+| SSDT-XOSI.aml | 추가됨 |
+| _OSI to XOSI 패치 | 활성화됨 |
 
-### Booter 섹션
-| Quirks | 상태 |
-|--------|------|
-| AvoidRuntimeDefrag | true |
-| EnableSafeModeSlide | true |
-| ProvideCustomSlide | true |
-| RebuildAppleMemoryMap | true |
-| SyncRuntimePermissions | true |
-
-### Kernel 섹션
+### Kernel 섹션 (샘플 기반 - 수정 필요)
 | 항목 | 상태 |
 |------|------|
 | Lilu.kext | 추가됨 |
 | VirtualSMC.kext | 추가됨 |
-| AppleCpuPmCfgLock | true |
-| AppleXcpmCfgLock | true |
-| PanicNoKextDump | true |
-| PowerTimeoutKernelPanic | true |
-| ProvideCurrentCpuInfo | true |
-| XhciPortLimit | true |
+| WhateverGreen.kext | 추가됨 |
+| AppleALC.kext | 추가됨 |
+| AirportBrcmFixup.kext | 추가됨 |
+| AppleCpuPmCfgLock | 활성화 필요 |
+| AppleXcpmCfgLock | 활성화 필요 |
+| XhciPortLimit | 활성화 필요 |
 
 ### DeviceProperties 섹션
 | 항목 | 상태 |
 |------|------|
-| Add | 비어있음 (주입 필요) |
-
-### Misc 섹션
-| 항목 | 설정값 |
-|------|--------|
-| ShowPicker | true |
-| PickerMode | External |
-| Timeout | 5 |
-| DisableWatchDog | true |
+| 오디오 layout-id | 수정 필요 (Realtek ALC257 → 실제 코덱) |
+| 그래픽 Platform ID | 수정 필요 |
+| WiFi built-in | 수정 필요 |
 
 ### NVRAM 섹션
 | 항목 | 설정값 |
 |------|--------|
-| boot-args | -v keepsyms=1 alcid=11 |
-| csr-active-config | 030E0000 |
-| WriteFlash | true |
+| boot-args | 수정 필요 (alcid 확인) |
+| csr-active-config | 수정 필요 |
 
 ### PlatformInfo 섹션
 | 항목 | 상태 |
 |------|------|
-| Automatic | true |
-| SystemProductName | (미설정 - Generic 사용) |
-
-### UEFI 섹션
-| Quirks | 상태 |
-|--------|------|
-| RequestBootVarRouting | true |
-| AudioSupport | true |
-| ConnectDrivers | true |
-
----
-
-## 필요한 항목
-
-### SSDT (ACPI/Add/)
-- [ ] SSDT-EC.aml
-- [ ] SSDT-PLUG.aml
-- [ ] SSDT-PNLF.aml
-- [ ] SSDT-USBX.aml
-- [ ] SSDT-HPET.aml (선택)
-- [ ] SSDT-XOSI.aml
-
-### UEFI Drivers (Drivers/)
-- [ ] OpenRuntime.efi (필수)
-- [ ] OpenHfsPlus.efi (권장)
-- [ ] OpenCanopy.efi (선택)
-
-### Kexts (Kexts/)
-- [ ] Lilu.kext
-- [ ] VirtualSMC.kext
-- [ ] WhateverGreen.kext
-- [ ] AppleALC.kext
-- [ ] AirportBrcmFixup.kext
-- [ ] BlueToolFixup.kext
-- [ ] VoodooI2C.kext
-- [ ] VoodooI2CHID.kext
-- [ ] VoodooPS2Controller.kext
-- [ ] NVMeFix.kext
-- [ ] SMCBatteryManager.kext
-- [ ] ECEnabler.kext
-- [ ] BrightnessKeys.kext (선택)
-
-### 부트 파일
-- [ ] OpenCore.efi
-- [ ] BOOTX64.EFI (또는 BOOTx64.efi)
+| SMBIOS | 수정 필요 (사용자 시리얼 생성) |
 
 ---
 
@@ -168,4 +132,12 @@ EFI/
 
 | 날짜 | 변경사항 | 비고 |
 |------|----------|------|
-| 2024-04-01 | 초기 EFI 구조 생성 | config.plist基础的 템플릿 작성 |
+| 2024-04-01 | 초기 EFI 구조 생성 | config.plist 기본 템플릿 작성 |
+| 2024-04-01 | 샘플 EFI 기반 복사 | Lenovo-s340-s540-Big-Sur-OpenCore-i5-8265u 기준 |
+| | - OpenCore.efi, BOOTx64.efi 복사 |
+| | - SSDT 13개 복사 |
+| | - UEFI 드라이버 3개 복사 |
+| | - kext 15개 복사 |
+| | - Tools 12개 복사 |
+| | - Resources 복사 |
+| | - config.plist 샘플 기반 적용 |
