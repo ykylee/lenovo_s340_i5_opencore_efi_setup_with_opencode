@@ -6,6 +6,24 @@
 
 ---
 
+## 버전 정보
+
+### OpenCore
+| 항목 | 버전 | 비고 |
+|------|------|------|
+| **OpenCore.efi** | 0.6.4 | Big Sur时期 (2020) |
+| **BOOTx64.efi** | 0.6.4 | 동일 |
+
+### 지원 macOS
+| 버전 | 상태 | 비고 |
+|------|------|------|
+| macOS 10.15 (Catalina) | ✅ 지원 | |
+| macOS 11.x (Big Sur) | ✅ 지원 | 기준 샘플 |
+| macOS 12.x (Monterey) | ⚠️ 제한적 | kext 버전 업그레이드 필요 |
+| macOS 13.x (Ventura) | ❌ 미지원 | OpenCore 0.9.x 필요 |
+
+---
+
 ## 디렉터리 구조
 
 ```
@@ -25,61 +43,74 @@ EFI/
 
 ---
 
-## 현재 파일 목록
+## ACPI (13개 SSDT)
 
-### 부트 파일
-- **BOOTx64.efi**: ✅ 존재 (샘플 복사)
-- **OpenCore.efi**: ✅ 존재 (샘플 복사)
+| 파일 | 용도 | 버전 |
+|------|------|------|
+| SSDT-AWAC.aml | AWAC 시간 유지 | - |
+| SSDT-EC.aml | 내장 컨트롤러 | - |
+| SSDT-GPI0.aml | GPIO 컨트롤러 | - |
+| SSDT-GPRW.aml | 런웨이크 방지 | - |
+| SSDT-HPET.aml | 타이머 수정 | - |
+| SSDT-I2C0-SPED.aml | I2C 속도 | - |
+| SSDT-PLUG.aml | CPU 전원 관리 | - |
+| SSDT-PMC.aml | PMC 수정 | - |
+| SSDT-PNLFCFL.aml | 백라이트 제어 (CFL) | - |
+| SSDT-PSF13.aml | PSF 수정 | - |
+| SSDT-USBX.aml | USB 전원 관리 | - |
+| SSDT-XOSI.aml | _OSI → XOSI | - |
+| ssdt-rmne.aml | 장치 이름 변경 | - |
 
-### ACPI (13개 SSDT)
-```
-SSDT-AWAC.aml      - AWAC 시간 유지
-SSDT-EC.aml        - 내장 컨트롤러
-SSDT-GPI0.aml      - GPIO 컨트롤러
-SSDT-GPRW.aml      - 런웨이크 방지
-SSDT-HPET.aml      - 타이머 수정
-SSDT-I2C0-SPED.aml - I2C 속도
-SSDT-PLUG.aml      - CPU 전원 관리
-SSDT-PMC.aml       - PMC 수정
-SSDT-PNLFCFL.aml   - 백라이트 제어 (CFL)
-SSDT-PSF13.aml     - PSF 수정
-SSDT-USBX.aml      - USB 전원 관리
-SSDT-XOSI.aml      - _OSI → XOSI
-ssdt-rmne.aml      - 장치 이름 변경
-```
+---
 
-### UEFI Drivers (3개)
-```
-OpenCanopy.efi    - 그래픽 부트 피커
-OpenHfsPlus.efi   - HFS+ 파일시스템
-OpenRuntime.efi   - 런타임 드라이버 (필수)
-```
+## UEFI Drivers (3개)
 
-### Kexts (15개)
-```
-AirportBrcmFixup.kext  - Broadcom WiFi
-AppleALC.kext         - 오디오
-BrightnessKeys.kext   - 밝기 키
-Lilu.kext            - 패치 엔진 (필수)
-NVMeFix.kext         - NVMe 최적화
-NullEthernet.kext    - 더미 이더넷
-SMCBatteryManager.kext - 배터리 관리
-SMCProcessor.kext    - CPU 센서
-Sinetek-rtsx.kext    - 카드 리더기
-USBPorts.kext        - USB 포트 매핑
-VirtualSMC.kext       - SMC 에뮬레이션 (필수)
-VoodooI2C.kext       - I2C 터치패드
-VoodooI2CHID.kext    - I2C HID
-VoodooPS2Controller.kext - PS/2 키보드/마우스
-WhateverGreen.kext   - 그래픽 패치 (필수)
-```
+| 파일 | 용도 | 버전 |
+|------|------|------|
+| OpenCanopy.efi | 그래픽 부트 피커 | - |
+| OpenHfsPlus.efi | HFS+ 파일시스템 | - |
+| OpenRuntime.efi | 런타임 드라이버 (필수) | - |
 
-### Tools
-```
-BootKicker.efi, ChipTune.efi, CleanNvram.efi, ControlMsrE2.efi, CsrUtil.efi, 
-GopStop.efi, KeyTester.efi, MmapDump.efi, OpenControl.efi, OpenShell.efi, 
-ResetSystem.efi, RtcRw.efi
-```
+---
+
+## Kexts (15개)
+
+| Kext | 버전 | 용도 |
+|------|------|------|
+| Lilu.kext | 1.5.3 | 패치 엔진 (필수) |
+| VirtualSMC.kext | 1.2.3 | SMC 에뮬레이션 (필수) |
+| WhateverGreen.kext | 1.4.9 | 그래픽 패치 (필수) |
+| AppleALC.kext | 1.6.0 | 오디오 |
+| AirportBrcmFixup.kext | 2.1.2 | Broadcom WiFi |
+| VoodooI2C.kext | 2.6.5 | I2C 터치패드 |
+| VoodooI2CHID.kext | 1.0 | I2C HID |
+| VoodooPS2Controller.kext | 2.2.3 | PS/2 키보드/마우스 |
+| NVMeFix.kext | 1.0.7 | NVMe 최적화 |
+| SMCBatteryManager.kext | 1.2.3 | 배터리 관리 |
+| SMCProcessor.kext | 1.2.3 | CPU 센서 |
+| BrightnessKeys.kext | - | 밝기 키 |
+| NullEthernet.kext | 1.0.6 | 더미 이더넷 |
+| Sinetek-rtsx.kext | 2.3 | 카드 리더기 |
+| USBPorts.kext | 1.0 | USB 포트 매핑 |
+
+---
+
+## Tools (12개)
+
+| 도구 | 용도 |
+|------|------|
+| BootKicker.efi | 부트 키커 |
+| ChipTune.efi | 칩튜닝 |
+| CleanNvram.efi | NVRAM 정리 |
+| ControlMsrE2.efi | MSR E2 제어 |
+| CsrUtil.efi | SIP 유틸리티 |
+| GopStop.efi | GOP 중지 |
+| KeyTester.efi | 키 테스트 |
+| MmapDump.efi | 메모리 맵 덤프 |
+| OpenControl.efi | OpenCore 제어 |
+| OpenShell.efi | UEFI 셸 |
+| ResetSystem.efi | 시스템 리셋 |
+| RtcRw.efi | RTC 읽기/쓰기 |
 
 ---
 
@@ -134,10 +165,11 @@ ResetSystem.efi, RtcRw.efi
 |------|----------|------|
 | 2024-04-01 | 초기 EFI 구조 생성 | config.plist 기본 템플릿 작성 |
 | 2024-04-01 | 샘플 EFI 기반 복사 | Lenovo-s340-s540-Big-Sur-OpenCore-i5-8265u 기준 |
-| | - OpenCore.efi, BOOTx64.efi 복사 |
+| | - OpenCore.efi, BOOTx64.efi 복사 (v0.6.4) |
 | | - SSDT 13개 복사 |
 | | - UEFI 드라이버 3개 복사 |
-| | - kext 15개 복사 |
+| | - kext 15개 복사 (버전 기록: Lilu 1.5.3, VirtualSMC 1.2.3 등) |
 | | - Tools 12개 복사 |
 | | - Resources 복사 |
 | | - config.plist 샘플 기반 적용 |
+| | - EFI_STATUS.md 버전 정보 추가 |
