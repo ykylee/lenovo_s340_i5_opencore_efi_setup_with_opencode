@@ -1,0 +1,33 @@
+# OpenCore EFI .gitignore
+
+## EFI 파일들
+# 실제 kext, 드라이버, SSDT 등 실행 파일은 git에 포함하지 않음
+
+# OpenCore 빌드 산출물
+*.efi
+*.aml
+*.kext/
+
+# 빌드 캐시
+*.cache/
+build/
+DerivedData/
+
+# macOS特有
+.DS_Store
+._*
+*.swp
+*~
+
+# EFI Backup
+EFI_backup/
+EFI_old/
+*.bak
+
+# 로그 파일
+*.log
+
+#Temporary files
+tmp/
+temp/
+*.tmp
