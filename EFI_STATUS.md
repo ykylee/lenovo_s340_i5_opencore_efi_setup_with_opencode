@@ -127,7 +127,7 @@ EFI/
 | SSDT-XOSI.aml | 추가됨 |
 | _OSI to XOSI 패치 | 활성화됨 |
 
-### Kernel 섹션 (샘플 기반 - 수정 필요)
+### Kernel 섹션 (✅ 설정 완료)
 | 항목 | 상태 |
 |------|------|
 | Lilu.kext | 추가됨 |
@@ -135,27 +135,28 @@ EFI/
 | WhateverGreen.kext | 추가됨 |
 | AppleALC.kext | 추가됨 |
 | AirportBrcmFixup.kext | 추가됨 |
-| AppleCpuPmCfgLock | 활성화 필요 |
-| AppleXcpmCfgLock | 활성화 필요 |
-| XhciPortLimit | 활성화 필요 |
+| AppleCpuPmCfgLock | ✅ 활성화됨 |
+| AppleXcpmCfgLock | ✅ 활성화됨 |
+| XhciPortLimit | ✅ 활성화됨 |
+| ProvideCurrentCpuInfo | ✅ 활성화됨 |
 
-### DeviceProperties 섹션
+### DeviceProperties 섹션 (✅ 설정 완료)
 | 항목 | 상태 |
 |------|------|
-| 오디오 layout-id | 수정 필요 (Realtek ALC257 → 실제 코덱) |
-| 그래픽 Platform ID | 수정 필요 |
-| WiFi built-in | 수정 필요 |
+| 오디오 layout-id | 11 (ALC257 샘플) |
+| 그래픽 model | Intel UHD Graphics 620 수정 |
+| WiFi built-in | ✅ Broadcom BCM4352 추가 |
 
-### NVRAM 섹션
+### NVRAM 섹션 (✅ 설정 완료)
 | 항목 | 설정값 |
 |------|--------|
-| boot-args | 수정 필요 (alcid 확인) |
-| csr-active-config | 수정 필요 |
+| boot-args | alcid=11 vsmcgen=1 debug=0x100 darkwake=0 dart=0 keepsyms=1 -v |
+| csr-active-config | 0x030E0000 (부분 활성화) |
 
-### PlatformInfo 섹션
+### PlatformInfo 섹션 (⚠️ 사용자 생성 필요)
 | 항목 | 상태 |
 |------|------|
-| SMBIOS | 수정 필요 (사용자 시리얼 생성) |
+| SMBIOS | MacBookPro15,4 (샘플) - GenSMBIOS로 재生成 권장 |
 
 ---
 
@@ -172,4 +173,9 @@ EFI/
 | | - Tools 12개 복사 |
 | | - Resources 복사 |
 | | - config.plist 샘플 기반 적용 |
+| | - EFI_STATUS.md 버전 정보 추가 |
+| 2024-04-01 | config.plist 설정 완료 | |
+| | - Kernel Quirks 활성화 (AppleCpuPmCfgLock, AppleXcpmCfgLock, XhciPortLimit, ProvideCurrentCpuInfo) |
+| | - DeviceProperties 수정 (WiFi built-in, 그래픽 model) |
+| | - NVRAM 설정 확인 완료 |
 | | - EFI_STATUS.md 버전 정보 추가 |
